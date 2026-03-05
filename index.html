@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow – Distraction-Free Study & Work Timer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <h1>FocusFlow</h1>
+            <p>Distraction-Free Study & Work Timer</p>
+        </header>
+
+        <main class="dashboard">
+            <!-- Focus Timer Section -->
+            <section class="card timer-section">
+                <div class="timer-header">
+                    <h2>Focus Timer</h2>
+                    <div class="mode-toggle">
+                        <button id="focus-btn" class="active">Focus</button>
+                        <button id="break-btn">Break</button>
+                    </div>
+                </div>
+
+                <div class="timer-display">
+                    <svg class="progress-ring" width="200" height="200">
+                        <circle class="progress-ring__circle-bg" stroke="#e2e8f0" stroke-width="8" fill="transparent"
+                            r="90" cx="100" cy="100" />
+                        <circle class="progress-ring__circle" stroke="#4f46e5" stroke-width="8" fill="transparent"
+                            r="90" cx="100" cy="100" />
+                    </svg>
+                    <div class="time-left" id="time-left">25:00</div>
+                </div>
+
+                <div class="motivational-message" id="message">Ready to focus? Let's go!</div>
+
+                <div class="timer-controls">
+                    <button class="btn btn-primary" id="start-btn"><i class="fas fa-play"></i> Start</button>
+                    <button class="btn btn-secondary" id="pause-btn" disabled><i class="fas fa-pause"></i>
+                        Pause</button>
+                    <button class="btn btn-outline" id="reset-btn"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+            </section>
+
+            <!-- Task List Section -->
+            <section class="card tasks-section">
+                <h2>Tasks</h2>
+                <div class="add-task-container">
+                    <input type="text" id="task-input" placeholder="What are you working on?">
+                    <button class="btn btn-primary" id="add-task-btn"><i class="fas fa-plus"></i></button>
+                </div>
+                <ul class="task-list" id="task-list">
+                    <!-- Tasks will be added here -->
+                </ul>
+            </section>
+
+            <!-- Daily Progress Section -->
+            <section class="card progress-section">
+                <h2>Daily Progress</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-value" id="completed-sessions">0</span>
+                        <span class="stat-label">Focus Sessions</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="total-focus-time">0m</span>
+                        <span class="stat-label">Total Time Focused</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
