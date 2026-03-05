@@ -163,9 +163,11 @@ header p {
 
 .progress-ring__circle {
     stroke-dasharray: 565.48;
-    /* 2 * pi * 90 */
     stroke-dashoffset: 0;
     transition: stroke-dashoffset 1s linear;
+
+    /* Premium glow effect */
+    filter: drop-shadow(0 0 6px rgba(79, 70, 229, 0.6));
 }
 
 .time-left {
@@ -370,4 +372,33 @@ header p {
     font-size: 0.875rem;
     color: var(--text-secondary);
     font-weight: 500;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --secondary-color: #334155;
+    --secondary-hover: #475569;
+    --border-color: #334155;
+}
+
+@keyframes pulseTimer {
+    0% {
+        filter: drop-shadow(0 0 4px rgba(79, 70, 229, 0.4));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 10px rgba(79, 70, 229, 0.8));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 4px rgba(79, 70, 229, 0.4));
+    }
+}
+
+.progress-ring__circle.running {
+    animation: pulseTimer 2s infinite;
 }

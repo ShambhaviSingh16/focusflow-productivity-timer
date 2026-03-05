@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // ---- DOM Elements ----
+    const themeToggle = document.getElementById('theme-toggle');
     const timeLeftDisplay = document.getElementById('time-left');
     const startBtn = document.getElementById('start-btn');
     const pauseBtn = document.getElementById('pause-btn');
@@ -77,13 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
         completedSessionsDisplay.textContent = completedSessions;
         const totalMinutes = Math.floor(totalFocusSeconds / 60);
         totalFocusTimeDisplay.textContent = `${totalMinutes}m`;
+        // Save progress
+        localStorage.setItem("focusflowSessions", completedSessions);
+        localStorage.setItem("focusflowTime", totalFocusSeconds);
     }
 
     function handleTimerComplete() {
         clearInterval(timerId);
         isRunning = false;
         timerId = null;
-
+        // 🔔 Play notification sound
+        document.getElementById("alarmSound").play();
         if (isFocusMode) {
             completedSessions++;
             updateStats();
@@ -99,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isRunning) return;
 
         isRunning = true;
+        progressCircle.classList.add("running");
         startBtn.disabled = true;
         pauseBtn.disabled = false;
 
@@ -123,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clearInterval(timerId);
         isRunning = false;
+        progressCircle.classList.remove("running");
         timerId = null;
 
         startBtn.disabled = false;
@@ -132,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetTimer() {
         pauseTimer();
+        progressCircle.classList.remove("running");
         timeLeft = isFocusMode ? FOCUS_TIME : BREAK_TIME;
         updateDisplay();
         messageDisplay.textContent = "Ready to focus? Let's go!";
@@ -155,7 +163,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---- Task Functions ----
-    function createTaskElement(taskText) {
+    function saveTasks() {
+        const tasks = [];
+
+        document.querySelectorAll('.task-item').forEach(task => {
+            tasks.push({
+                text: task.querySelector('.task-text').textContent,
+                completed: task.classList.contains('completed')
+            });
+        });
+
+        localStorage.setItem('focusflowTasks', JSON.stringify(tasks));
+    }
+    function createTaskElement(taskText, isCompleted = false) {
         const li = document.createElement('li');
         li.className = 'task-item';
 
@@ -166,6 +186,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const span = document.createElement('span');
         span.className = 'task-text';
         span.textContent = taskText;
+        if (isCompleted) {
+            li.classList.add('completed');
+            checkbox.checked = true;
+        }
 
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-task-btn';
@@ -177,10 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 li.classList.remove('completed');
             }
+            saveTasks();
         });
 
         deleteBtn.addEventListener('click', () => {
             li.remove();
+            saveTasks();
         });
 
         li.appendChild(checkbox);
@@ -196,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const taskEl = createTaskElement(text);
             taskList.appendChild(taskEl);
             taskInput.value = '';
+            saveTasks();
         }
     }
 
@@ -212,6 +239,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize display
+    function loadTasks() {
+        const tasks = JSON.parse(localStorage.getItem('focusflowTasks')) || [];
+
+        tasks.forEach(task => {
+            const taskEl = createTaskElement(task.text, task.completed);
+            taskList.appendChild(taskEl);
+        });
+    }
+
+    loadTasks();
+    // Dark mode toggle
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+
+        const icon = themeToggle.querySelector('i');
+
+        if (document.body.classList.contains('dark-mode')) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        } else {
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        }
+    });
+    // Load saved progress
+    completedSessions = parseInt(localStorage.getItem("focusflowSessions")) || 0;
+    totalFocusSeconds = parseInt(localStorage.getItem("focusflowTime")) || 0;
+
+    updateStats();
+
+    // Initialize display
+
     updateDisplay();
     setProgress(0);
 });

@@ -13,8 +13,16 @@
 <body>
     <div class="app-container">
         <header>
-            <h1>FocusFlow</h1>
-            <p>Distraction-Free Study & Work Timer</p>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <h1>FocusFlow</h1>
+                    <p>Stay focused. Work smarter.</p>
+                </div>
+
+                <button id="theme-toggle" class="btn btn-outline">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </header>
 
         <main class="dashboard">
@@ -76,6 +84,7 @@
             </section>
         </main>
     </div>
+    <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
     <script src="script.js"></script>
 </body>
 
