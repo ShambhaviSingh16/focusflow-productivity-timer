@@ -10,7 +10,7 @@ The goal of FocusFlow is to provide a **simple, distraction-free environment** w
 ## 🚀 Live Demo
 
 Deployed on Vercel
-https://your-vercel-link.vercel.app
+https://focusflow-productivity-timer.vercel.app/
 
 ---
 
@@ -89,7 +89,7 @@ FocusFlowApp
 1. Clone the repository
 
 ```
-git clone https://github.com/yourusername/focusflow-productivity-timer.git
+git clone https://github.com/ShambhaviSingh16/focusflow-productivity-timer.git
 ```
 
 2. Navigate to the project folder
